@@ -6,8 +6,11 @@ public class Location {
     private String locationID;
     private ArrayList<Movie> movies;
     
-    public Location(){
-        //fill in
+    public Location(String address, String locationName, String locationID){
+        this.address = address;
+        this.locationName = locationName;
+        this.locationID = locationID;
+        movies = new ArrayList<Movie>();
     }
 
     //setters

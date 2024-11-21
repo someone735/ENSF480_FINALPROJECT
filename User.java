@@ -5,8 +5,13 @@ public class User {
     private Location theatreLocation;
     private String paymentMethod;
     
-    public User(){
+    public User(String name, String email, Location theatreLocation, String paymentMethod){
+        this.name = name;
+        this.email = email;
+        this.theatreLocation = theatreLocation;
+        this.paymentMethod = paymentMethod;
         //fill in 
+        //checking for registered
     }
     //setters
     public void setEmail(String email) {
@@ -43,5 +48,5 @@ public class User {
     }
     
     
-    public void purchaseTicket(){}
+    // public void purchaseTicket(){}
 }

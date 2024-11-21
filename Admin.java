@@ -1,8 +1,8 @@
 public class Admin {
     private String adminID;
 
-    public Admin(){
-        //fill in
+    public Admin(String adminID){
+        this.adminID = adminID;
     }
 
     //setters

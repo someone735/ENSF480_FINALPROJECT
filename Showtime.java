@@ -6,8 +6,14 @@ public class Showtime {
     private int availableOUSeats;
     private Location location;
 
-    public Showtime(){
-        //fill in 
+    //how do i make movie a pointer??
+    public Showtime(int showtimeID, Movie movie, String time, int availableRUSeats, int availableOUSeats, Location location){
+        this.showtimeID = showtimeID;
+        this.movie = movie; //??
+        this.time = time;
+        this.availableRUSeats = availableRUSeats;
+        this.availableOUSeats = availableOUSeats;
+        this.location = location;
     }
 
     //getters

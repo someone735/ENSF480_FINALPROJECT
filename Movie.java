@@ -6,8 +6,11 @@ public class Movie {
     private int movieID;
     private ArrayList<Showtime> showtimes;
 
-    public Movie(){
-        //fill in
+    public Movie(String title, String genre, int movieID){
+        this.title = title;
+        this.genre = genre;
+        this.movieID = movieID;
+        showtimes = new ArrayList<Showtime>();
     }
 
     //setters
