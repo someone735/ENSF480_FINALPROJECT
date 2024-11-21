@@ -38,4 +38,9 @@ public class Movie {
         return title;
     }
     
+
+    //more functions 
+    public void addShowtime(String time, Location location, int numRUSeats, int numOUSeats){}
+
+    public void removeShowtime(Showtime showtime){}
 }

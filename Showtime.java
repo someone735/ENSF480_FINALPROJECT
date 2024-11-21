@@ -49,4 +49,7 @@ public class Showtime {
     public void setTime(String time) {
         this.time = time;
     }
+
+    //more functions 
+    public void updateSeats(boolean isRegisteredUser, int numSeatsBooked){}
 }
