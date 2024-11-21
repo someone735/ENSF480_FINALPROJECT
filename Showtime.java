@@ -6,7 +6,7 @@ public class Showtime {
     private int availableOUSeats;
     private Location location;
 
-    public Showtime(){
+    public Showtime(Movie movie, String time, Location location, int numRUSeats, int numOUSeats){
         //fill in 
     }
 
