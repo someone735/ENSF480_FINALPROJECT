@@ -23,9 +23,7 @@ public class Ticket {
 
     //setters
 
-    public boolean getIsReservedByRU(){
-        return isReservedByRU;
-    }
+    
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }public void setSeat(int seat) {
@@ -55,14 +53,19 @@ public class Ticket {
         return ticketPrice;
     }public User getUser() {
         return user;
-    }public boolean getCancellationEligibilty() {
-        return cancellationEligibilty;
     }public boolean getTicketStatus() {
         return ticketStatus;
+    }public boolean getIsReservedByRU(){
+        return isReservedByRU;
     }
 
     // more functions
-    public void cancelTicket(){}
-    public void sendTicketReciept(){}
+    public void cancelTicket(){
+        //requires database interaction
+    }
+    public void sendTicketReciept(){
+        //requires database interaction 
+        
+    }
 
 }

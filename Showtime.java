@@ -48,6 +48,12 @@ public class Showtime {
     public Location getLocation() {
         return location;
     }
+    public int getTotalRUSeats() {
+        return totalRUSeats;
+    }
+    public int getTotalOUSeats() {
+        return totalOUSeats;
+    }
 
     //setters
     public void setAvailableOUSeats(int availableOUSeats) {
@@ -68,7 +74,31 @@ public class Showtime {
     public void setTime(String time) {
         this.time = time;
     }
+    public void setTotalOUSeats(int totalOUSeats) {
+        this.totalOUSeats = totalOUSeats;
+    }
+    public void setTotalRUSeats(int totalRUSeats) {
+        this.totalRUSeats = totalRUSeats;
+    }
 
     //more functions 
-    public void updateSeats(boolean isRegisteredUser, int numSeatsBooked){}
+    public void updateSeats(boolean isRegisteredUser, int numSeatsBooked){
+        // this for now, but need to implement
+        if (isRegisteredUser){
+            if (numSeatsBooked < availableRUSeats){
+
+            } else if (numSeatsBooked < availableRUSeats - availableOUSeats){
+
+            } else {
+                //display
+            }
+        } else {
+            if (numSeatsBooked < availableOUSeats){
+
+            } else {
+                //display
+            }
+        }
+
+    }
 }

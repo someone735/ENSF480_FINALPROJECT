@@ -42,9 +42,24 @@ public class Location {
     }
     
     //more functions
-    public void addMovie(Movie movie){}
+    public void addMovie(Movie movie){
+        // this for now, but need to implement
+        if (movies.contains(movie)){
+            //display or print message that movie already exists in movies
+        } else {
+            movies.add(movie);
+            //send addition to database
+        }
+    }
     
-    public void removeMovie(Movie movie){}
+    public void removeMovie(Movie movie){
+        // this for now, but need to implement
+        if (movies.contains(movie)){
+            movies.remove(movie);
+        } else {
+            //print that no movie exist in list that matches given movie
+        }
+    }
     
     public boolean hasMovie(Movie movie){
         // check arraylist if it has this movie
