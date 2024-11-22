@@ -4,6 +4,8 @@ public class Showtime {
     private String time;
     private int availableRUSeats;
     private int availableOUSeats;
+    private int totalRUSeats;
+    private int totalOUSeats;
     private Location location;
 
 
@@ -13,12 +15,17 @@ public class Showtime {
 //        return id;
 //    } ---> will be implemented in MovieTheatreController so it can query the database for the next available ID num.
 
-    public Showtime(Movie movie, String time, int availableRUSeats, int availableOUSeats, Location location, int showtimeID){
+    public Showtime(Movie movie, String time, int totalSeats, Location location, int showtimeID){
         this.showtimeID = showtimeID;
         this.movie = movie;
         this.time = time;
-        this.availableRUSeats = availableRUSeats;
-        this.availableOUSeats = availableOUSeats;
+
+        this.availableRUSeats = (int)(totalSeats*0.10); // 10% of seats reserved for RU
+        this.availableOUSeats = totalSeats - availableRUSeats;
+
+        this.totalOUSeats = availableOUSeats;
+        this.totalRUSeats = availableRUSeats;
+
         this.location = location;
     }
 

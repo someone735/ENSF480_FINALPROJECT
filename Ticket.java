@@ -19,9 +19,8 @@ public class Ticket {
     }
 
     //setters
-    public void setCancellationEligibility(boolean cancellationEligibility) {
-        this.cancellationEligibility = cancellationEligibility;
-    }public void setPaymentMethod(String paymentMethod) {
+
+    public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }public void setSeat(int seat) {
         this.seat = seat;
