@@ -46,7 +46,11 @@ public class Location {
     
     public void removeMovie(Movie movie){}
     
-    public void hasMovie(Movie movie){}
+    public boolean hasMovie(Movie movie){
+        // check arraylist if it has this movie
+        //return int depending on true or not !
+        return false; // this for now, but need to implement
+    }
 
 
 }

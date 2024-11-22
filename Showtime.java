@@ -6,9 +6,17 @@ public class Showtime {
     private int availableOUSeats;
     private Location location;
 
+    private static int count = 0;
+
+    private int createID() {
+        int id = count;
+        count++;
+        return id;
+    }
+
     //how do i make movie a pointer??
-    public Showtime(int showtimeID, Movie movie, String time, int availableRUSeats, int availableOUSeats, Location location){
-        this.showtimeID = showtimeID;
+    public Showtime(Movie movie, String time, int availableRUSeats, int availableOUSeats, Location location){
+        this.showtimeID = createID();
         this.movie = movie; //??
         this.time = time;
         this.availableRUSeats = availableRUSeats;
