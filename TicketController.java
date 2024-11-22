@@ -20,7 +20,7 @@ public class TicketController {
         // must update DB as well
 
         int ticketID = produceTicketID();
-        Ticket ticket = new Ticket( ticketID, showtime, user, seat,  ticketPrice, user.getPaymentMethod());
+        Ticket ticket = new Ticket( ticketID, showtime, user, seat,  ticketPrice, user.getPaymentMethod(), false);
 
         BillingSystem billingSystem = new BillingSystem();
         billingSystem.processTicketPayment(user, ticket);
@@ -37,6 +37,12 @@ public class TicketController {
         if (cancellationEligibility){
             BillingSystem billingSystem = new BillingSystem();
             billingSystem.processTicketRefund(ticket, user);
+            ticket.setTicketStatus(false);
+            if (ticket.getIsReservedByRU()){
+                Showtime showtime = ticket.getShowtime();
+
+                // i'll finish this later lol
+            }
         }
 
 

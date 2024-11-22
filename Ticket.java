@@ -6,20 +6,26 @@ public class Ticket {
     private double ticketPrice;
     private String paymentMethod;
     private boolean ticketStatus;
+    private boolean isReservedByRU; //boolean to check if the ticket saves a seat that was reserved for an RU
 
-    public Ticket(int ticketID, Showtime showtime, User user, int seat, double ticketPrice, String paymentMethod){
+
+    public Ticket(int ticketID, Showtime showtime, User user, int seat, double ticketPrice, String paymentMethod, boolean isReservedByRU ){
         this.ticketID = ticketID;
         this.showtime = showtime;
         this.user = user;
         this.seat = seat;
         this.ticketPrice = ticketPrice;
         this.paymentMethod = paymentMethod;
+        this.isReservedByRU = isReservedByRU;
         //fill in below
         ticketStatus = true; // ticketStatus is TRUE when it is still a valid ticket
     }
 
     //setters
 
+    public boolean getIsReservedByRU(){
+        return isReservedByRU;
+    }
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }public void setSeat(int seat) {
