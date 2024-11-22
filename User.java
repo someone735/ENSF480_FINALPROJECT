@@ -1,17 +1,17 @@
 public class User {
-    private String name;
-    private String email;
-    private boolean registered;
-    private Location theatreLocation;
-    private String paymentMethod;
+    protected String name;
+    protected String email;
+    protected boolean registered;
+    protected Location theatreLocation;
+    protected String paymentMethod;
     
-    public User(String name, String email, Location theatreLocation, String paymentMethod){
+    public User(String name, String email, Location theatreLocation){
         this.name = name;
         this.email = email;
+        this.paymentMethod = null; //only to be set if the OU decides to purchase tickets
         this.theatreLocation = theatreLocation;
-        this.paymentMethod = paymentMethod;
-        //fill in 
-        //checking for registered
+        registered = false;
+
     }
     //setters
     public void setEmail(String email) {
