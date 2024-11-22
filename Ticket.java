@@ -3,7 +3,6 @@ public class Ticket {
     private Showtime showtime;
     private User user;
     private int seat;
-    private boolean cancellationEligibility;
     private double ticketPrice;
     private String paymentMethod;
     private boolean ticketStatus;
@@ -16,7 +15,6 @@ public class Ticket {
         this.ticketPrice = ticketPrice;
         this.paymentMethod = paymentMethod;
         //fill in below
-        cancellationEligibility = true;
         ticketStatus = true; // ticketStatus is TRUE when it is still a valid ticket
     }
 
