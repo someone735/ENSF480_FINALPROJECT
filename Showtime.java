@@ -6,18 +6,16 @@ public class Showtime {
     private int availableOUSeats;
     private Location location;
 
-    private static int count = 0;
 
-    private int createID() {
-        int id = count;
-        count++;
-        return id;
-    }
+//    private int createID() {
+//        int id = count;
+//        count++;
+//        return id;
+//    } ---> will be implemented in MovieTheatreController so it can query the database for the next available ID num.
 
-    //how do i make movie a pointer??
-    public Showtime(Movie movie, String time, int availableRUSeats, int availableOUSeats, Location location){
-        this.showtimeID = createID();
-        this.movie = movie; //??
+    public Showtime(Movie movie, String time, int availableRUSeats, int availableOUSeats, Location location, int showtimeID){
+        this.showtimeID = showtimeID;
+        this.movie = movie;
         this.time = time;
         this.availableRUSeats = availableRUSeats;
         this.availableOUSeats = availableOUSeats;

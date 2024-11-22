@@ -15,8 +15,8 @@ public class Movie {
 
     }
 
-    public void addShowtime(String time, Location location, int numRUSeats, int numOUSeats){
-        Showtime newShowtime = new Showtime(this, time, numRUSeats, numOUSeats, location);
+    public void addShowtime(int showtimeID, String time, Location location, int numRUSeats, int numOUSeats){
+        Showtime newShowtime = new Showtime(this, time, numRUSeats, numOUSeats, location, showtimeID);
         this.showtimes.add(newShowtime);
         if (!location.hasMovie(this)){
             location.addMovie(this); // adding movie to the location if not already listed
@@ -63,8 +63,5 @@ public class Movie {
     }
     
 
-    //more functions 
-   // public void addShowtime(String time, Location location, int numRUSeats, int numOUSeats){}
 
-   // public void removeShowtime(Showtime showtime){}
 }
