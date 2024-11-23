@@ -17,8 +17,7 @@ public class Ticket {
         this.ticketPrice = ticketPrice;
         this.paymentMethod = paymentMethod;
         this.isAnRUSeat = isAnRUSeat;
-        //fill in below
-        ticketStatus = true; // ticketStatus is TRUE when it is still a valid ticket
+        this.ticketStatus = true; // ticketStatus is TRUE when it is still a valid ticket
     }
 
     //setters
@@ -55,13 +54,15 @@ public class Ticket {
         return user;
     }public boolean getTicketStatus() {
         return ticketStatus;
-    }public boolean getIsReservedByRU(){
+    }public boolean getIsAnRUSeat(){
         return isAnRUSeat;
     }
 
     // more functions
     public void cancelTicket(){
         this.ticketStatus = false;
+        Showtime showtime = this.showtime;
+        showtime.updateSeats(this.isAnRUSeat, 1,false);
 
     }
     public void sendTicketReciept(){

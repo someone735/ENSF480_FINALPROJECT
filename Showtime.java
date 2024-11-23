@@ -74,12 +74,6 @@ public class Showtime {
     public void setTime(String time) {
         this.time = time;
     }
-    public void setTotalOUSeats(int totalOUSeats) {
-        this.totalOUSeats = totalOUSeats;
-    }
-    public void setTotalRUSeats(int totalRUSeats) {
-        this.totalRUSeats = totalRUSeats;
-    }
 
     /*
         updateSeats() --> returns true if SUCCESSFUL, returns FALSE otherwise
@@ -91,22 +85,30 @@ public class Showtime {
         // is a booking for one of the 10% RU reserved seats. User type doesn't matter at this step.
 
         boolean success = false;
+        if (numSeatsBooked <= 0) {
+            System.out.println("Invalid number of seats.");
+            return false;
+        }
+
         if (ticketPurchase){
             if (isAnRUSeat && (this.availableRUSeats - numSeatsBooked) >= 0){
                 this.availableRUSeats -= numSeatsBooked;
                 success = true;
-            }
-            else if (!isAnRUSeat && (this.availableOUSeats - numSeatsBooked >= 0) ){
+            } else if (!isAnRUSeat && (this.availableOUSeats - numSeatsBooked >= 0) ){
                 this.availableOUSeats -= numSeatsBooked;
                 success = true;
             }
-            else{
-                System.out.println("Not enough seats available for this reservation.");
+
+        // else if ticket cancellation
+        } else{
+            if (isAnRUSeat && (this.availableRUSeats + numSeatsBooked <= this.totalRUSeats)){
+                this.availableRUSeats += numSeatsBooked;
+                success = true;
+            } else if (!isAnRUSeat && (this.availableOUSeats + numSeatsBooked <= this.totalOUSeats)){
+                this.availableOUSeats += numSeatsBooked;
+                success = true;
             }
 
-        }else{
-            // seat cancellation logic
-            success = true;
         }
 
         return success;

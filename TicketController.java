@@ -36,10 +36,12 @@ public class TicketController {
         // add ticket to DB
         // save remaining OUSeats for this showtime to DB
 
+        return ticket;
+
 
     }
 
-}
+
 
     public void cancelTicket(Ticket ticket, User user){
 
@@ -51,14 +53,18 @@ public class TicketController {
             BillingSystem billingSystem = new BillingSystem();
             billingSystem.processTicketRefund(ticket, user);
             ticket.cancelTicket();
+
+            // TO ADD:
             // update DB that the ticket is cancelled
+
             Showtime showtime = ticket.getShowtime();
+
+            // TO ADD:
             // update DB with number of remaining seats
+            
             } else {
             System.out.println("Ticket is not eligible for cancellation.");
         }
-
-
 
 
 
