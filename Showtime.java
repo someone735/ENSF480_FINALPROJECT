@@ -81,28 +81,36 @@ public class Showtime {
         this.totalRUSeats = totalRUSeats;
     }
 
-    //more functions 
-    public void updateSeats(boolean isAnRUSeat, int numSeatsBooked){
+    /*
+        updateSeats() --> returns true if SUCCESSFUL, returns FALSE otherwise
+     */
+    public boolean updateSeats(boolean isAnRUSeat, int numSeatsBooked, boolean ticketPurchase){
         // this for now, but need to implement
         // RUs can reserve both RU and OU seats, but since we need to track the numOUSeats and numRUSeats
         // when cancelling/purchasing tickets, isAnRUSeat is a Ticket attribute to check if the ticket
         // is a booking for one of the 10% RU reserved seats. User type doesn't matter at this step.
-        
-        if (isRegisteredUser){
-            if (numSeatsBooked < availableRUSeats){
 
-            } else if (numSeatsBooked < availableRUSeats - availableOUSeats){
-
-            } else {
-                //display
+        boolean success = false;
+        if (ticketPurchase){
+            if (isAnRUSeat && (this.availableRUSeats - numSeatsBooked) >= 0){
+                this.availableRUSeats -= numSeatsBooked;
+                success = true;
             }
-        } else {
-            if (numSeatsBooked < availableOUSeats){
-
-            } else {
-                //display
+            else if (!isAnRUSeat && (this.availableOUSeats - numSeatsBooked >= 0) ){
+                this.availableOUSeats -= numSeatsBooked;
+                success = true;
             }
+            else{
+                System.out.println("Not enough seats available for this reservation.");
+            }
+
+        }else{
+            // seat cancellation logic
+            success = true;
         }
+
+        return success;
+
 
     }
 }
