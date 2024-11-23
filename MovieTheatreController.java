@@ -2,7 +2,9 @@ import java.util.ArrayList;
 
 public class MovieTheatreController {
 
-    public void addMovieToLocation(Movie movie, Location location) {}
+    public void addMovieToLocation(Movie movie, Location location) {
+        location.addMovie(movie);
+    }
 
     public void removeMovieFromLocation(Movie movie, Location location) {}
 

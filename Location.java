@@ -42,16 +42,31 @@ public class Location {
     }
     
     //more functions
-    public void addMovie(Movie movie){
-        // this for now, but need to implement
-        if (movies.contains(movie)){
-            //display or print message that movie already exists in movies
+    public boolean addMovie(Movie movie) {
+        Movie toAdd = null;
+
+        // check if the movie already exists in the list
+        // checking by ID to prevent duplicate Hard Copies of a movie
+
+        for (Movie current : this.movies) {
+            if (current.getMovieID() == movie.getMovieID()) {
+                toAdd = current;
+                break;
+            }
+        }
+
+        if (toAdd == null) {
+            // if the movie does not exist, add it
+            this.movies.add(movie);
+            return true; // movie was added
+
         } else {
-            movies.add(movie);
-            //send addition to database
+            System.out.println("Movie with ID " + movie.getMovieID() + " already exists.");
+            return false;
         }
     }
-    
+
+
     public void removeMovie(Movie movie){
         // this for now, but need to implement
         if (movies.contains(movie)){
