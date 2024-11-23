@@ -82,8 +82,12 @@ public class Showtime {
     }
 
     //more functions 
-    public void updateSeats(boolean isRegisteredUser, int numSeatsBooked){
+    public void updateSeats(boolean isAnRUSeat, int numSeatsBooked){
         // this for now, but need to implement
+        // RUs can reserve both RU and OU seats, but since we need to track the numOUSeats and numRUSeats
+        // when cancelling/purchasing tickets, isAnRUSeat is a Ticket attribute to check if the ticket
+        // is a booking for one of the 10% RU reserved seats. User type doesn't matter at this step.
+        
         if (isRegisteredUser){
             if (numSeatsBooked < availableRUSeats){
 
