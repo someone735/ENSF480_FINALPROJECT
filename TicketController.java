@@ -61,7 +61,7 @@ public class TicketController {
 
             // TO ADD:
             // update DB with number of remaining seats
-            
+
             } else {
             System.out.println("Ticket is not eligible for cancellation.");
         }
@@ -70,7 +70,13 @@ public class TicketController {
 
     }
 
+    // Can probably remove this method if it has no other functionality
+    // can just call ticket method directly?
     public void sendTicketReceipt(Ticket ticket, User user){
+        ticket.sendTicketReceipt(ticket, user);
+
+
+
 
     }
 
