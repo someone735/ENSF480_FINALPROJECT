@@ -9,14 +9,14 @@ public class Ticket {
     private boolean isAnRUSeat; //boolean to check if the ticket saves a seat that was reserved for an RU
 
 
-    public Ticket(int ticketID, Showtime showtime, User user, int seat, double ticketPrice, String paymentMethod, boolean isReservedByRU ){
+    public Ticket(int ticketID, Showtime showtime, User user, int seat, double ticketPrice, String paymentMethod, boolean isAnRUSeat ){
         this.ticketID = ticketID;
         this.showtime = showtime;
         this.user = user;
         this.seat = seat;
         this.ticketPrice = ticketPrice;
         this.paymentMethod = paymentMethod;
-        this.isAnRUSeat = isReservedByRU;
+        this.isAnRUSeat = isAnRUSeat;
         //fill in below
         ticketStatus = true; // ticketStatus is TRUE when it is still a valid ticket
     }
@@ -61,7 +61,8 @@ public class Ticket {
 
     // more functions
     public void cancelTicket(){
-        //requires database interaction
+        this.ticketStatus = false;
+
     }
     public void sendTicketReciept(){
         //requires database interaction 

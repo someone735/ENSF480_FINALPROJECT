@@ -47,6 +47,6 @@ public class RegisteredUser extends User{
 
     // more functions
     public void savePaymentMethod(){
-        //send paymentMethod to database???
+        //send paymentMethod to database
     }
 }

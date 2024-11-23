@@ -1,33 +1,45 @@
 public class TicketController {
-    TicketController(){
+    TicketController() {
     }
-    public Ticket purchaseTicket(Showtime showtime, User user, int seat){
+
+    public Ticket purchaseTicket(Showtime showtime, User user, int seat) {
         double ticketPrice = 13.50;
 
-        // PLS READ
-        // if time permits, add if-else code to check if RU or OU.
-        // 10% of the seats are reserved for RU (calculation of allocated seats already in Showtime ctor).
-        // if no more RU seats for this showtime, they can still buy OU seats .
-        // the following code assumes the user is Ordinary and can only book Ordinary seats,
-        // which should be changed if this feature is implemented
+        Ticket ticket = null;
 
+        int ticketID = produceTicketID();
 
-        if (showtime.updateSeats(false, 1,true)){
-            int ticketID = produceTicketID();
-            Ticket ticket = new Ticket( ticketID, showtime, user, seat,  ticketPrice, user.getPaymentMethod(), false);
-            BillingSystem billingSystem = new BillingSystem();
-            billingSystem.processTicketPayment(user, ticket);
-            // add ticket to DB
-            // save remaining OUSeats for this showtime to DB
-            return ticket;
-        } else {
-            return null;
-            // for caller:
-            // if purchaseTicket() returns null, request User to pick another showtime.
+        // if user is RU, they may attempt to reserve an RU seat, but if unavailable, they may try to reserve an OU seat.
+        if (user.getRegistered()){
+            if (showtime.updateSeats(true, 1, true)) {
+                ticket = new Ticket(ticketID, showtime, user, seat, ticketPrice, user.getPaymentMethod(), true);
+
+            } else if (showtime.updateSeats(false, 1, true)) {
+                ticket = new Ticket(ticketID, showtime, user, seat, ticketPrice, user.getPaymentMethod(), false);
+            }
         }
+
+        // if user is OU, they can only try to purchase an OU seat.
+        else if ((!user.getRegistered()) && showtime.updateSeats(false, 1, true)) {
+            ticket = new Ticket(ticketID, showtime, user, seat, ticketPrice, user.getPaymentMethod(), false);
+        }
+
+        if (ticket == null) {
+            System.out.println("No more seats available for this showtime. Please select another.");
+            return ticket; // for caller: if purchaseTicket() returns null, request User to pick another showtime.
+        }
+
+        BillingSystem billingSystem = new BillingSystem();
+        billingSystem.processTicketPayment(user, ticket);
+
+        // TO ADD:
+        // add ticket to DB
+        // save remaining OUSeats for this showtime to DB
 
 
     }
+
+}
 
     public void cancelTicket(Ticket ticket, User user){
 
@@ -38,12 +50,12 @@ public class TicketController {
         if (cancellationEligibility){
             BillingSystem billingSystem = new BillingSystem();
             billingSystem.processTicketRefund(ticket, user);
-            ticket.setTicketStatus(false);
-            if (ticket.getIsReservedByRU()){
-                Showtime showtime = ticket.getShowtime();
-
-                // i'll finish this later lol
-            }
+            ticket.cancelTicket();
+            // update DB that the ticket is cancelled
+            Showtime showtime = ticket.getShowtime();
+            // update DB with number of remaining seats
+            } else {
+            System.out.println("Ticket is not eligible for cancellation.");
         }
 
 
@@ -52,7 +64,7 @@ public class TicketController {
 
     }
 
-    public void sendTicketReciept(Ticket ticket, User user){
+    public void sendTicketReceipt(Ticket ticket, User user){
 
     }
 
