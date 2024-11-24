@@ -1,59 +1,63 @@
 DROP DATABASE IF EXISTS MOVIE_THEATRE;
-CREATE DATABASE MOVIE_THEATRE; 
+CREATE DATABASE MOVIE_THEATRE;
 USE MOVIE_THEATRE;
 
 DROP TABLE IF EXISTS THEATRE;
 CREATE TABLE THEATRE (
-	TheatreID				SERIAL PRIMARY KEY,
+	TheatreID				INT AUTO_INCREMENT,
 	Address					varchar(100) not null,
-	TheatreName				varchar(100) not null
+	TheatreName				varchar(100) not null,
+    primary key(TheatreID)
 );
 
 DROP TABLE IF EXISTS MOVIE;
 CREATE TABLE MOVIE (
-	MovieID					SERIAL PRIMARY KEY,
-	Title					varchar(50)	not null,
-	Genre					varchar(30)	not null,
+	MovieID					INT AUTO_INCREMENT,
+	Title					varchar(100)	not null,
+	Genre					varchar(100)	not null,
     Theatre					int not null,
-    foreign key (Theatre) references THEATRE(TheatreID)
+    foreign key (Theatre) references THEATRE(TheatreID),
+    primary key(MovieID)
 );
 
 DROP TABLE IF EXISTS LOCATION;
 CREATE TABLE LOCATION (
-	LocationID				SERIAL PRIMARY KEY,
+	LocationID				INT AUTO_INCREMENT,
 	Address					varchar(100)	not null,
-	LocationName			varchar(100)	not null
+	LocationName			varchar(100)	not null,
+    primary key(LocationID)
 );
 
 
 
 DROP TABLE IF EXISTS SHOWTIME;
 CREATE TABLE SHOWTIME (
-	ShowtimeID				SERIAL PRIMARY KEY,
+	ShowtimeID				INT AUTO_INCREMENT,
 	Movie					int	not null,
-	Time					varchar(10)	not null,
+	Time					TIME NOT NULL,
     Theatre					int not null,
+
+    primary key(ShowtimeID),
     foreign key (Movie) references MOVIE(MovieID),
     foreign key (Theatre) references THEATRE(TheatreID)
 );
 
 DROP TABLE IF EXISTS REG_USER;
 CREATE TABLE REG_USER (
-	ID					SERIAL PRIMARY KEY,
+	ID					INT AUTO_INCREMENT,
 	Fname				varchar(50)	not null,
 	Lname				varchar(50)	not null,
     Email				varchar(50)	not null,
     Address				varchar(50)	not null,
-    MemberShipJoinDate	DATE NOT NULL,			
+    MemberShipJoinDate	DATE NOT NULL,
     MemberShipExpiry	DATE NOT NULL,
     PaymentMethod		varchar(50),
-    
 	primary key (ID)
 );
 
 DROP TABLE IF EXISTS SEAT;
 CREATE TABLE SEAT (
-	SeatID				SERIAL PRIMARY KEY,
+	SeatID				INT AUTO_INCREMENT,
     Showtime			int not null,
     Theatre				int not null,
     Movie				int not null,
@@ -95,6 +99,5 @@ VALUES
 ('Home Alone 3','Christmas, Comedy', 4),
 ('The Garfeild Movie','Fat Cat, Animated, Lasagna', 4),
 ('The Grinch','Christmas, Kindness, Animated', 4);
-
 
 
