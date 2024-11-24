@@ -1,12 +1,14 @@
 public class User {
-    protected String name;
+    protected String Fname;
+    protected String Lname;
     protected String email;
     protected boolean registered;
     protected Location theatreLocation;
     protected String paymentMethod;
     
-    public User(String name, String email, Location theatreLocation){
-        this.name = name;
+    public User(String Fname, String Lname,String email, Location theatreLocation){
+        this.Fname = Fname;
+        this.Lname = Lname;
         this.email = email;
         this.paymentMethod = null; //only to be set if the OU decides to purchase tickets
         this.theatreLocation = theatreLocation;
@@ -17,8 +19,12 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public void setFname(String name) {
+        this.Fname = name;
+    }
+    public void setLname(String name) {
+        this.Lname = name;
     }
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
@@ -34,8 +40,11 @@ public class User {
     public String getEmail() {
         return email;
     }
-    public String getName() {
-        return name;
+    public String getFname() {
+        return Fname;
+    }
+    public String getLname() {
+        return Lname;
     }
     public String getPaymentMethod() {
         return paymentMethod;

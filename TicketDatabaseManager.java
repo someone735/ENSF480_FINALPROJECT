@@ -20,6 +20,7 @@ public class TicketDatabaseManager {
     public int produceTicketID() {
         // takes max ticket ID from the ticket table from DB and increments it by 1
         // returns this int
+        // wait i think this could also be done in the databse but idk which way we wanna implememnt this
         return 0;
     }
 

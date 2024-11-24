@@ -5,12 +5,17 @@ public class RegisteredUser extends User{
     private String address;
     private boolean paymentMethodSaved;
     private Date membershipExpiry;
+    // for their login purposes
+    private String username;
+    private String password;
 
-    public RegisteredUser(int id, String name, String email, Location theatreLocation, Date membershipExpiry, String Address, boolean paymentMethodSaved, String paymentMethod ){
+    public RegisteredUser(int id, String Fname, String Lname, String username, String password, String email, Location theatreLocation, Date membershipExpiry, String Address, boolean paymentMethodSaved, String paymentMethod ){
 
-        super(name, email, theatreLocation);
+        super(Fname, Lname, email, theatreLocation); // calls ctor of base class User
         this.membershipExpiry = membershipExpiry;
         this.address = Address;
+        this.username = username;
+        this.password = password;
 
         if (paymentMethodSaved && paymentMethod != null){
             this.paymentMethod = paymentMethod;
