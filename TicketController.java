@@ -1,5 +1,9 @@
 public class TicketController {
+    BillingSystem billingSystem;
+    TicketDatabaseManager ticketDBM;
     TicketController() {
+        this.billingSystem = new BillingSystem();
+        this.ticketDBM = new TicketDatabaseManager();
     }
 
     public Ticket purchaseTicket(Showtime showtime, User user, int seat) {
@@ -7,7 +11,7 @@ public class TicketController {
 
         Ticket ticket = null;
 
-        int ticketID = produceTicketID();
+        int ticketID = ticketDBM.produceTicketID();
 
         // if user is RU, they may attempt to reserve an RU seat, but if unavailable, they may try to reserve an OU seat.
         if (user.getRegistered()){
@@ -29,13 +33,18 @@ public class TicketController {
             return ticket; // for caller: if purchaseTicket() returns null, request User to pick another showtime.
         }
 
-        BillingSystem billingSystem = new BillingSystem();
         billingSystem.processTicketPayment(user, ticket);
 
         // TO ADD:
         // add ticket to DB
-        // save remaining OUSeats for this showtime to DB
+        while (!ticketDBM.addTicketToDB(ticket)){
+            System.out.println("Unable to save ticket to DB.");
+        }
 
+        // save remaining OUSeats for this showtime to DB
+        while (!ticketDBM.updateShowtimeSeats(showtime)){
+            System.out.println("Unable to update seat count in DB.");
+        }
         return ticket;
 
 
@@ -50,7 +59,6 @@ public class TicketController {
         // query DB if ticket is still eligible for cancellation; reassign cancellationEligibility
 
         if (cancellationEligibility){
-            BillingSystem billingSystem = new BillingSystem();
             billingSystem.processTicketRefund(ticket, user);
             ticket.cancelTicket();
 
@@ -80,9 +88,5 @@ public class TicketController {
 
     }
 
-    public int produceTicketID(){
-        // queries DB for next available ticketID
-        return 1; // just a temp  val
 
-    }
 }
