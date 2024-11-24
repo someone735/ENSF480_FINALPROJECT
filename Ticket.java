@@ -65,10 +65,10 @@ public class Ticket {
         showtime.updateSeats(this.isAnRUSeat, 1,false);
 
     }
-    public void sendTicketReceipt(Ticket ticket, User user){
+    public void sendTicketReceipt(Ticket ticket){
         Showtime showtime = this.showtime;
         Movie movie = showtime.getMovie();
-        System.out.println("The following ticket receipt was sent to: "+ user.getEmail());
+        System.out.println("The following ticket receipt was sent to: "+ ticket.user.getEmail());
         System.out.println("Movie: "+ movie.getTitle());
         System.out.println("Genre: "+ movie.getGenre());
         System.out.println("Time: "+ showtime.getTime());
