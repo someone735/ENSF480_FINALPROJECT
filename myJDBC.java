@@ -14,8 +14,8 @@ public class myJDBC {
     public final String DBURL;
     public final String USERNAME;
     public final String PASSWORD;
-    private Connection dbConnect;
-    private ResultSet results;
+    protected Connection dbConnect;
+    protected ResultSet results;
 
     public myJDBC(String dburl, String username, String password) {
         this.DBURL = dburl;
@@ -33,7 +33,6 @@ public class myJDBC {
             // Explicitly load the MySQL JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Establish the connection
             this.dbConnect = DriverManager.getConnection(this.DBURL, this.USERNAME, this.PASSWORD);
             System.out.println("Connection to the database successful!");
 
@@ -73,12 +72,34 @@ public class myJDBC {
             }
 
             statement.close();
-        } catch (SQLException var4) {
-            var4.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+    // returns the movie IDs
+    public ArrayList<Integer> searchMovie(String search) {
+        ArrayList<Integer> IDs = new ArrayList<>();
 
+        try {
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("select M.MovieID, M.Title\n" +
+                    "from MOVIE as M\n" +
+                    "where LOCATE(LOWER('" + search + "'), LOWER(M.Title)) > 0;");
 
+            System.out.println("Results: ");
+            while (results.next()) {
+                System.out.println("ID: " + results.getInt("MovieID") + "     Name: " +
+                        results.getString("Title"));
+                IDs.add(new Integer(results.getInt("MovieID")));
+            }
+
+            myStmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return IDs;
+    }
 }
+
 
 

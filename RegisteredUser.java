@@ -38,6 +38,12 @@ public class RegisteredUser extends User{
     }public boolean getPaymentMethodSaved(){
         return paymentMethodSaved;
     }
+    public String getUsername() {
+        return username;
+    }
+    public String getPassword() {
+        return password;
+    }
 
     //setters
     public void setID(int iD) {
@@ -48,6 +54,12 @@ public class RegisteredUser extends User{
         this.paymentMethodSaved = paymentMethodSaved;
     }public void setMembershipExpiry(Date membershipExpiry) {
         this.membershipExpiry = membershipExpiry;
+    }
+    public void setUsername(String usr) {
+        this.username = usr;
+    }
+    public void setPassword(String pw) {
+        this.password = pw;
     }
 
     // more functions

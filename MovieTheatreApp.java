@@ -1,6 +1,17 @@
 import java.util.Scanner;
 
 public class MovieTheatreApp {
+
+    public static void searchMovie(myJDBC db, Scanner scanner) {
+        String search = "";
+        System.out.println("Search Movie: ");
+        search = scanner.nextLine().trim();
+        db.searchMovie(search);
+
+    }
+    public static void displayMovies(myJDBC db, Scanner scanner) {
+        db.displayMovies();
+    }
     public static void main(String args[]) {
 
         String url = "";
@@ -13,12 +24,12 @@ public class MovieTheatreApp {
         user = scanner.nextLine();
         System.out.println("Enter your database password: ");
         pw = scanner.nextLine();
-        myJDBC db = new myJDBC(url, user, pw);
-        //myJDBC db = new myJDBC("jdbc:mysql://localhost:3306/MOVIE_THEATRE", "root", "password");
+        //myJDBC db = new myJDBC(url, user, pw);
+        myJDBC db = new myJDBC("jdbc:mysql://localhost:3306/MOVIE_THEATRE", "root", "password");
         db.initializeConnection();
 
-        db.displayMovies();
-
+        searchMovie(db, scanner);
     }
+
 }
 
