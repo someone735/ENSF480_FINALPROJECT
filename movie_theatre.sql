@@ -9,38 +9,83 @@ CREATE TABLE THEATRE (
 	TheatreName				varchar(100) not null,
     primary key(TheatreID)
 );
+INSERT INTO THEATRE (Address, TheatreName)
+VALUES
+('Location A','AcmePlex: Location A'),
+('Location B','AcmePlex: Location A'),
+('Westhills','AcmePlex: Westills'),
+('Candy Cane Lane, North Pole','AcmePlex: Santa Edition');
 
 DROP TABLE IF EXISTS MOVIE;
 CREATE TABLE MOVIE (
 	MovieID					INT AUTO_INCREMENT,
 	Title					varchar(100)	not null,
 	Genre					varchar(100)	not null,
-    Theatre					int not null,
-    foreign key (Theatre) references THEATRE(TheatreID),
     primary key(MovieID)
 );
 
-DROP TABLE IF EXISTS LOCATION;
-CREATE TABLE LOCATION (
-	LocationID				INT AUTO_INCREMENT,
-	Address					varchar(100)	not null,
-	LocationName			varchar(100)	not null,
-    primary key(LocationID)
-);
-
-
+INSERT INTO MOVIE (Title, Genre)
+VALUES
+('The Garfeild Movie','Fat Cat, Animated, Lasagna'),
+('The Wild Robot','Adventure, Family, Animated'),
+('The Barbie Movie','Societal Issues'),
+('Barbie as the Three Musketeers','Action, Friendship, Animated'),
+('Barbie as the Island Princess','Tropical, Adventure, Animated'),
+('Barbie in the Princess Charm School','Magical, Redemption Arc, Animated'),
+('The Spongebob Movie','Comedy, Adventure, Animated'),
+('Clueless','Rom-Com'),
+('Diary of a Wimpy Kid: Rodrick Rules','Comedy, Slice of Life?'),
+('Kimi No Nawa','Anime, Romance'),
+('Home Alone','Christmas, Comedy'),
+('Home Alone 2','Christmas, Comedy'),
+('Home Alone 3','Christmas, Comedy'),
+('The Grinch','Christmas, Kindness, Animated');
 
 DROP TABLE IF EXISTS SHOWTIME;
 CREATE TABLE SHOWTIME (
 	ShowtimeID				INT AUTO_INCREMENT,
-	Movie					int	not null,
+	MovieID					int	not null,
 	Time					TIME NOT NULL,
-    Theatre					int not null,
+    TheatreID				int not null,
 
     primary key(ShowtimeID),
-    foreign key (Movie) references MOVIE(MovieID),
-    foreign key (Theatre) references THEATRE(TheatreID)
+    foreign key (MovieID) references MOVIE(MovieID),
+    foreign key (TheatreID) references THEATRE(TheatreID)
 );
+
+INSERT INTO SHOWTIME (MovieID, Time, TheatreID) VALUES
+(1, '10:00:00', 1),
+(2, '12:30:00', 1),
+(3, '14:00:00', 1),
+(4, '16:00:00', 1),
+(5, '18:30:00', 1),
+(6, '20:15:00', 1),
+(7, '11:00:00', 1),
+(8, '13:45:00', 1),
+(9, '15:30:00', 1),
+(10, '17:00:00', 1),
+(11, '19:00:00', 2),
+(11, '14:30:00', 2),
+(12, '21:15:00', 2),
+(13, '23:00:00', 2),
+(14, '08:30:00', 2),
+(1, '10:45:00', 3),
+(2, '12:00:00', 3),
+(3, '14:30:00', 3),
+(4, '16:45:00', 3),
+(5, '18:00:00', 3),
+(6, '19:30:00', 3),
+(7, '21:00:00', 3),
+(8, '23:15:00', 4),
+(9, '09:00:00', 4),
+(10, '11:30:00', 4),
+(11, '13:00:00', 4),
+(12, '15:15:00', 4),
+(13, '17:45:00', 4),
+(14, '20:00:00', 4);
+
+
+
 
 DROP TABLE IF EXISTS REG_USER;
 CREATE TABLE REG_USER (
@@ -73,31 +118,6 @@ CREATE TABLE SEAT (
     foreign key (Showtime) references SHOWTIME(ShowtimeID)
 );
 
-INSERT INTO THEATRE (Address, TheatreName)
-VALUES
-('Location A','AcmePlex: Location A'),
-('Location B','AcmePlex: Location A'),
-('Westhills','AcmePlex: Westills'),
-('Candy Cane Lane, North Pole','AcmePlex: Santa Edition');
 
-INSERT INTO MOVIE (Title, Genre, Theatre)
-VALUES
-('The Garfeild Movie','Fat Cat, Animated, Lasagna', 2),
-('The Wild Robot','Adventure, Family, Animated', 2),
-('The Barbie Movie','Societal Issues', 1),
-('Barbie as the Three Musketeers','Action, Friendship, Animated', 1),
-('Barbie as the Island Princess','Tropical, Adventure, Animated', 1),
-('Barbie in the Princess Charm School','Magical, Redemption Arc, Animated', 1),
-('The Garfeild Movie','Fat Cat, Animated, Lasagna', 1),
-('The Spongebob Movie','Comedy, Adventure, Animated', 3),
-('Clueless','Rom-Com', 3),
-('Diary of a Wimpy Kid: Rodrick Rules','Comedy, Slice of Life?', 3),
-('Kimi No Nawa','Anime, Romance', 3),
-('The Garfeild Movie','Fat Cat, Animated, Lasagna', 3),
-('Home Alone','Christmas, Comedy', 4),
-('Home Alone 2','Christmas, Comedy', 4),
-('Home Alone 3','Christmas, Comedy', 4),
-('The Garfeild Movie','Fat Cat, Animated, Lasagna', 4),
-('The Grinch','Christmas, Kindness, Animated', 4);
 
 
