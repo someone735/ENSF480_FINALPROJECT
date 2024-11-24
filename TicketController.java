@@ -1,9 +1,9 @@
 public class TicketController {
     BillingSystem billingSystem;
     TicketDatabaseManager ticketDBM;
-    TicketController() {
+    TicketController(TicketDatabaseManager ticketDBM) {
         this.billingSystem = new BillingSystem();
-        this.ticketDBM = new TicketDatabaseManager();
+        this.ticketDBM = ticketDBM;
     }
 
     public Ticket purchaseTicket(Showtime showtime, User user, int seat) {
@@ -80,8 +80,8 @@ public class TicketController {
 
     // Can probably remove this method if it has no other functionality
     // can just call ticket method directly?
-    public void sendTicketReceipt(Ticket ticket, User user){
-        ticket.sendTicketReceipt(ticket, user);
+    public void sendTicketReceipt(Ticket ticket){
+        ticket.sendTicketReceipt(ticket);
 
 
 
