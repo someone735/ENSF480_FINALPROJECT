@@ -43,7 +43,7 @@ public class TicketController {
             return ticket; // for caller: if purchaseTicket() returns null, request User to pick another showtime.
         }
 
-        billingSystem.processTicketPayment(user, ticket);
+        //billingSystem.processTicketPayment(user, ticket);
 
         // TO ADD:
         // add ticket to DB
@@ -66,7 +66,7 @@ public class TicketController {
         // query DB if ticket is still eligible for cancellation; reassign cancellationEligibility
 
         if (cancellationEligibility) {
-            billingSystem.processTicketRefund(ticket, user);
+            //billingSystem.processTicketRefund(ticket, user);
             ticket.cancelTicket();
             if (!updateTicketStatus(ticket)){
                 System.out.println("Unable to update ticket status in DB. Ticket may already be cancelled.");
@@ -201,8 +201,8 @@ public class TicketController {
                     user = userDBM.fetchUser(userID);
                 }
                 MovieTheatreController movieTC = new MovieTheatreController(jdbc);
-                Showtime showtime = MovieTheatreController.fetchShowtime(showtimeID);
-                return new Ticket(id, showtime, user, -1, price, paymentMethod, isAnRUSeat);
+                //Showtime showtime = MovieTheatreController.fetchShowtime(showtimeID);
+                //return new Ticket(id, showtime, user, -1, price, paymentMethod, isAnRUSeat);
 
             }
 
