@@ -13,12 +13,6 @@ public class MovieTheatreApp extends JFrame {
     private LoginPanel loginPanel;
     private SignupPanel signupPanel;
     private MovieListPanel movieListPanel;
-    private GuestPanel guestPanel;
-
-
-
-    public int pickedLocationID;
-    public boolean locationSpecified;
 
     private MovieTheatreController movieTC;
     public MovieTheatreApp() {
@@ -26,8 +20,6 @@ public class MovieTheatreApp extends JFrame {
         db = new myJDBC();
         db.initializeConnection();
         movieTC = new MovieTheatreController(db);
-        pickedLocationID = -1;
-        locationSpecified = false;
 
         // set up the main container with CardLayout
         cards = new JPanel(cardLayout);
@@ -37,13 +29,11 @@ public class MovieTheatreApp extends JFrame {
         movieListPanel = new MovieListPanel(this, movieTC);
         initialPanel = new InitialPanel(this);
         signupPanel = new SignupPanel(this);
-        guestPanel = new GuestPanel(this, movieTC);
 
         cards.add(loginPanel, "Login");
         cards.add(movieListPanel, "Movies");
         cards.add(initialPanel, "Initial");
         cards.add(signupPanel, "Signup");
-        cards.add(guestPanel, "Guest");
 
         this.add(cards);
 
@@ -66,13 +56,7 @@ public class MovieTheatreApp extends JFrame {
     public void switchToRegister() {
         // Switch to the Movie List panel after successful login
         cardLayout.show(cards, "Signup");
-    }
-
-    public void switchToGuest(){
-        // just browse and purchase movies i guess?
-        cardLayout.show(cards, "Guest");
-
-
+        cardLayout.show(cards, "Movies");
     }
 
     public static void main(String[] args) {
@@ -172,11 +156,6 @@ public class MovieTheatreApp extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 app.switchToRegister();
-            }
-        });
-        guestButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                app.switchToGuest();
             }
         });
 
@@ -324,8 +303,6 @@ class SignupPanel extends JPanel {
                 // DO A CHECK TO MAKE SURE THE USERNAME IS NOT ALREADY IN DB
                 // AFTER CHECK MAKE THE RU AND SET THEIR INFO
 
-                // ^^ can probably use UserDatabaseManager
-
                 if (safe == 1) {
                     // set RU stuff maybe and add them to db?
                     // switch to a diff panel
@@ -392,24 +369,20 @@ class SignupPanel extends JPanel {
 class MovieListPanel extends JPanel {
     private ArrayList<Movie> movies;
     private boolean showAll = true;
-    private boolean search = true;
-
+    private boolean searchAll = true;
+    private int pickedLocationID;
 
     private String searchMovie;
     private JTextField searchInput;
-    private JList<Movie> movieList;
     private DefaultListModel<Movie> listModel;
+    private JList<Movie> movieList;
     private JButton showAllButton;
     private JLabel movieDetailsLabel;
 
 
     public MovieListPanel(MovieTheatreApp app, MovieTheatreController movieTC) {
-        JLabel locationFilter = new JLabel("Choose a location:");
-
-
         // layout for the main panel
         this.setLayout(new BorderLayout());
-
 
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -419,9 +392,8 @@ class MovieListPanel extends JPanel {
         showAllButton.setVisible(false);
         showAllButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                search = false;
                 showAll = true;
-                updateMovieList(movieTC, app);
+                updateMovieList(movieTC);
                 showAllButton.setVisible(false);
             }
         });
@@ -434,9 +406,8 @@ class MovieListPanel extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 searchMovie = searchInput.getText();
-                search = true;
                 showAll = false;
-                updateMovieList(movieTC, app);
+                updateMovieList(movieTC);
                 showAllButton.setVisible(true);
             }
         });
@@ -468,17 +439,20 @@ class MovieListPanel extends JPanel {
         this.add(detailsPanel, BorderLayout.EAST);
 
 
-        updateMovieList(movieTC, app);
+        updateMovieList(movieTC);
     }
 
 
-    private void updateMovieList(MovieTheatreController movieTC, MovieTheatreApp app) {
+    private void updateMovieList(MovieTheatreController movieTC) {
         listModel.clear();  // clear existing list items
 
-        if (showAll) {
+        if (showAll ) {
             movies = movieTC.fetchMovies(-1);
-        } else if (search){
+        } else if (searchAll){
             movies = movieTC.fetchMovies(searchMovie);
+        } else{
+            movies = movieTC.fetchMovies(pickedLocationID);
+
         }
 
         for (Movie movie : movies) {
@@ -491,37 +465,9 @@ class MovieListPanel extends JPanel {
                 String movieDetails = "<html><b>Title:</b> " + selectedMovie.getTitle() +
                         "<br><b>Genre:</b> " + selectedMovie.getGenre() + "</html>";
                 movieDetailsLabel.setText(movieDetails);
-
-
-            }
-
-        });
-    }
-}
-
-class LocationListPanel extends JPanel{
-    public LocationListPanel(MovieTheatreApp app, MovieTheatreController movieTC ){
-        // supposed to be an interface to show user what the locations are
-        // should set the MovieTheatreApp attribute "LocationID" to whatever the user picks
-    }
-}
-
-class GuestPanel extends JPanel{
-    public GuestPanel(MovieTheatreApp app, MovieTheatreController movieTC){
-
-        JButton browseMovies = new JButton("Browse Movies");
-        browseMovies.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                app.switchToMovieList();
             }
         });
-
-        this.setLayout(new FlowLayout());
-        this.add(browseMovies);
-
-
     }
-
 }
 
 
