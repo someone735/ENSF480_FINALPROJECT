@@ -1,13 +1,9 @@
-import java.util.Scanner;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.*;
-import java.awt.event.*;
-import java.awt.FlowLayout;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MovieTheatreApp extends JFrame {
     private static myJDBC db;
@@ -18,15 +14,19 @@ public class MovieTheatreApp extends JFrame {
     private SignupPanel signupPanel;
     private MovieListPanel movieListPanel;
 
+    private MovieTheatreController movieTC;
     public MovieTheatreApp() {
         super("ACMEPLEX");
+        db = new myJDBC();
+        db.initializeConnection();
+        movieTC = new MovieTheatreController(db);
 
         // set up the main container with CardLayout
         cards = new JPanel(cardLayout);
 
 
         loginPanel = new LoginPanel(this, db);
-        movieListPanel = new MovieListPanel(this, db);
+        movieListPanel = new MovieListPanel(this, movieTC);
         initialPanel = new InitialPanel(this);
         signupPanel = new SignupPanel(this);
 
@@ -47,6 +47,8 @@ public class MovieTheatreApp extends JFrame {
         // Switch to the Movie List panel after successful login
         cardLayout.show(cards, "Movies");
     }
+
+
     public void switchToLogin() {
         // Switch to the Movie List panel after successful login
         cardLayout.show(cards, "Login");
@@ -54,6 +56,7 @@ public class MovieTheatreApp extends JFrame {
     public void switchToRegister() {
         // Switch to the Movie List panel after successful login
         cardLayout.show(cards, "Signup");
+        cardLayout.show(cards, "Movies");
     }
 
     public static void main(String[] args) {
@@ -68,19 +71,74 @@ public class MovieTheatreApp extends JFrame {
 //        System.out.println("Enter your database password: ");
 //        pw = scanner.nextLine();
 //        //myJDBC db = new myJDBC(url, user, pw);
-        db = new myJDBC("jdbc:mysql://localhost:3306/MOVIE_THEATRE", "root", "password");
+        db = new myJDBC("jdbc:mysql://localhost:3306/MOVIE_THEATRE", "root", "123");
+        db = new myJDBC();
         db.initializeConnection();
+//        MovieTheatreController movieTC = new MovieTheatreController(db);
+//        displayMovies(movieTC, scanner);
+//        searchMovie(movieTC, scanner);
+//        displayShowtimes(movieTC, scanner);
 //
-//        searchMovie(db, scanner);
 
         EventQueue.invokeLater(() -> {
             new MovieTheatreApp().setVisible(true);
         });
     }
-}
 
-class InitialPanel extends JPanel {
 
+    public static void searchMovie(MovieTheatreController movieTC, Scanner scanner) {
+        String search = "";
+        System.out.println("Search Movie: ");
+        search = scanner.nextLine().trim();
+        movieTC.fetchMovies(search);
+
+        ArrayList<Movie> results = movieTC.fetchMovies(search);
+        if (results.isEmpty()) {
+            System.out.println("No movies found.");
+            return;
+        }
+
+        System.out.println("Movies that matched your search:");
+        for (Movie movie : results) {
+            System.out.println("Movie ID: " + movie.getMovieID());
+            System.out.println("Title: " + movie.getTitle());
+            System.out.println("Genre: " + movie.getGenre());
+        }
+
+
+
+    }
+    public static void displayMovies(MovieTheatreController movieTC, Scanner scanner) {
+
+        // see all movies across ALL locations
+        // add code to ask user if they want to see movies based on location or not
+        ArrayList<Movie> allMovies = movieTC.fetchMovies(-1);
+        if (allMovies.isEmpty()) {
+            System.out.println("No movies available.");
+            return;
+        }
+
+        System.out.println("All movies:");
+        for (Movie movie : allMovies) {
+            System.out.println("Movie ID: " + movie.getMovieID());
+            System.out.println("Title: " + movie.getTitle());
+            System.out.println("Genre: " + movie.getGenre());
+        }
+
+
+    }
+
+    public static void displayShowtimes(MovieTheatreController movieTC, Scanner scanner){
+        String search = "";
+        System.out.println("Which Movie would you like to see showtimes for? ");
+
+        search = scanner.nextLine().trim();
+       // movieTC.displayShowtimes();
+
+    }
+ }
+
+ class InitialPanel extends JPanel {
     private MovieTheatreApp app;
 
     public InitialPanel(MovieTheatreApp app) {
@@ -100,12 +158,6 @@ class InitialPanel extends JPanel {
                 app.switchToRegister();
             }
         });
-        guestButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                app.switchToMovieList();
-            }
-        });
-
 
         this.setLayout(new FlowLayout());
         this.add(loginButton);
@@ -113,7 +165,6 @@ class InitialPanel extends JPanel {
         this.add(guestButton);
     }
 }
-
 class LoginPanel extends JPanel {
     private int width = 100;
     private int height = 30;
@@ -184,8 +235,8 @@ class LoginPanel extends JPanel {
         gbc.gridy = gridy;
         panel.add(component, gbc);
     }
+
 }
-// havent implemented signup panel yet..
 class SignupPanel extends JPanel {
     private int width = 100;
     private int height = 30;
@@ -312,19 +363,24 @@ class SignupPanel extends JPanel {
         gbc.gridy = gridy;
         panel.add(component, gbc);
     }
+
 }
 
-
 class MovieListPanel extends JPanel {
-    private ArrayList<String> movies;
+    private ArrayList<Movie> movies;
     private boolean showAll = true;
+    private boolean searchAll = true;
+    private int pickedLocationID;
+
     private String searchMovie;
     private JTextField searchInput;
-    private DefaultListModel<String> listModel;
-    private JList<String> movieList;
+    private DefaultListModel<Movie> listModel;
+    private JList<Movie> movieList;
     private JButton showAllButton;
+    private JLabel movieDetailsLabel;
 
-    public MovieListPanel(MovieTheatreApp app, myJDBC db) {
+
+    public MovieListPanel(MovieTheatreApp app, MovieTheatreController movieTC) {
         // layout for the main panel
         this.setLayout(new BorderLayout());
 
@@ -337,7 +393,7 @@ class MovieListPanel extends JPanel {
         showAllButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showAll = true;
-                updateMovieList(db);
+                updateMovieList(movieTC);
                 showAllButton.setVisible(false);
             }
         });
@@ -351,7 +407,7 @@ class MovieListPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 searchMovie = searchInput.getText();
                 showAll = false;
-                updateMovieList(db);
+                updateMovieList(movieTC);
                 showAllButton.setVisible(true);
             }
         });
@@ -360,6 +416,7 @@ class MovieListPanel extends JPanel {
         searchPanel.add(searchInput);
         searchPanel.add(searchButton);
         searchPanel.add(showAllButton);
+
 
 
         this.add(searchPanel, BorderLayout.NORTH);
@@ -373,33 +430,47 @@ class MovieListPanel extends JPanel {
         movieList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         this.add(movieListScrollPane, BorderLayout.CENTER);
+        movieDetailsLabel = new JLabel();
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0)); // Align text to the right
+        detailsPanel.add(movieDetailsLabel);
 
-        // initially load all movies
-        updateMovieList(db);
+        detailsPanel.setAlignmentY(TOP_ALIGNMENT);
+        this.add(detailsPanel, BorderLayout.EAST);
+
+
+        updateMovieList(movieTC);
     }
 
 
-    private void updateMovieList(myJDBC db) {
+    private void updateMovieList(MovieTheatreController movieTC) {
         listModel.clear();  // clear existing list items
 
-        if (showAll) {
-            movies = db.displayMovies();
-        } else {
-            movies = db.searchMovie(searchMovie);
+        if (showAll ) {
+            movies = movieTC.fetchMovies(-1);
+        } else if (searchAll){
+            movies = movieTC.fetchMovies(searchMovie);
+        } else{
+            movies = movieTC.fetchMovies(pickedLocationID);
+
         }
 
-        for (String movie : movies) {
-            listModel.addElement(movie);
+        for (Movie movie : movies) {
+            listModel.addElement(movie); // Add the entire movie object to the list model
         }
 
         movieList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                String selectedMovie = movieList.getSelectedValue();
-                // ummm still need to implemen6tt  stuff !!!
-                System.out.println("Selected Movie: " + selectedMovie);
+                Movie selectedMovie = movieList.getSelectedValue();
+                String movieDetails = "<html><b>Title:</b> " + selectedMovie.getTitle() +
+                        "<br><b>Genre:</b> " + selectedMovie.getGenre() + "</html>";
+                movieDetailsLabel.setText(movieDetails);
             }
         });
     }
 }
+
+
+
 
 

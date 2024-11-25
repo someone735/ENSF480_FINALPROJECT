@@ -5,6 +5,8 @@ public class User {
     protected boolean registered;
     protected Location theatreLocation;
     protected String paymentMethod;
+
+    public User(){}
     
     public User(String Fname, String Lname,String email, Location theatreLocation){
         this.Fname = Fname;

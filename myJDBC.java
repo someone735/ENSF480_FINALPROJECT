@@ -14,7 +14,7 @@ public class myJDBC {
     public final String DBURL;
     public final String USERNAME;
     public final String PASSWORD;
-    protected Connection dbConnect;
+    public Connection dbConnect;
     protected ResultSet results;
 
     public myJDBC(String dburl, String username, String password) {
@@ -25,7 +25,7 @@ public class myJDBC {
     public myJDBC() {
         this.DBURL = "jdbc:mysql://localhost:3306/MOVIE_THEATRE";
         this.USERNAME = "root";
-        this.PASSWORD = "password";
+        this.PASSWORD = "123";
     }
 
     public void initializeConnection() {
@@ -58,72 +58,31 @@ public class myJDBC {
         return this.PASSWORD;
     }
 
-    public ArrayList<String>  displayMovies() {
-        ArrayList<String> movies = new ArrayList<>();
-        try {
-            Statement statement = this.dbConnect.createStatement();
-            String query = "SELECT * FROM MOVIE";
-            this.results = statement.executeQuery(query);
-            //System.out.println("All Movies: ");
 
-            while(this.results.next()) {
-//                System.out.println("Movie ID: " + this.results.getInt("MovieID"));
-//                System.out.println("Movie: " + this.results.getString("Title"));
-//                System.out.println("\n");
-                movies.add(results.getString("Title"));
-            }
 
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return movies;
-    }
-
-    public ArrayList<String> searchMovie(String search) {
-        ArrayList<String> movies = new ArrayList<>();
-
-        try {
-            Statement myStmt = dbConnect.createStatement();
-            results = myStmt.executeQuery("select M.MovieID, M.Title\n" +
-                    "from MOVIE as M\n" +
-                    "where LOCATE(LOWER('" + search + "'), LOWER(M.Title)) > 0;");
-
-            //System.out.println("Results: ");
-            while (results.next()) {
+    // returns the movie IDs
+//    public ArrayList<Integer> searchMovie(String search) {
+//        ArrayList<Integer> IDs = new ArrayList<>();
+//
+//        try {
+//            Statement myStmt = dbConnect.createStatement();
+//            results = myStmt.executeQuery("select M.MovieID, M.Title\n" +
+//                    "from MOVIE as M\n" +
+//                    "where LOCATE(LOWER('" + search + "'), LOWER(M.Title)) > 0;");
+//
+//            System.out.println("Results: ");
+//            while (results.next()) {
 //                System.out.println("ID: " + results.getInt("MovieID") + "     Name: " +
 //                        results.getString("Title"));
-                movies.add(results.getString("Title"));
-            }
-
-            myStmt.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return movies;
-    }
-    // havent tested below
-    public int movieIDFromName(String name) {
-        int movieID = -1;
-        try {
-            Statement myStmt = dbConnect.createStatement();
-            results = myStmt.executeQuery("select M.MovieID\n" +
-                    "from MOVIE as M\n" +
-                    "where M.Title = '" + name + "';");
-
-            //System.out.println("Results: ");
-            while (results.next()) {
-//                System.out.println("ID: " + results.getInt("MovieID") + "     Name: " +
-//                        results.getString("Title"));
-                movieID = results.getInt("movieID");
-            }
-
-            myStmt.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return movieID;
-    }
+//                IDs.add(new Integer(results.getInt("MovieID")));
+//            }
+//
+//            myStmt.close();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//        return IDs;
+//    }
 }
 
 

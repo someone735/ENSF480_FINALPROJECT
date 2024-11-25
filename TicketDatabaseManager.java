@@ -1,3 +1,5 @@
+// can probably delete
+
 public class TicketDatabaseManager {
     TicketDatabaseManager(){}
 
@@ -21,6 +23,7 @@ public class TicketDatabaseManager {
         // takes max ticket ID from the ticket table from DB and increments it by 1
         // returns this int
         // wait i think this could also be done in the databse but idk which way we wanna implememnt this
+        // -->  we can but i was jus thinking for addTicketToDB the ticket object should alr have an id before insertion ahhh
         return 0;
     }
 
