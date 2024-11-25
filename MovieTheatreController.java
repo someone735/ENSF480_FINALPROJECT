@@ -1,30 +1,18 @@
+import java.sql.*;
 import java.util.ArrayList;
 
 public class MovieTheatreController {
-    public MovieDatabaseManager movieDBM;
-    MovieTheatreController(myJDBC myJDBC){
-        movieDBM = new MovieDatabaseManager(myJDBC);
+
+    private myJDBC jdbc;
+
+    public MovieTheatreController(myJDBC myJDBC){
+        this.jdbc = myJDBC;
     }
 
-    public void addMovieToLocation(Movie movie, Location location) {
-        location.addMovie(movie);
-        while (!movieDBM.addMovieToLocation(movie.getMovieID(), location.getLocationID())){
-        } // may be turned into a try-catch
-        // ngl idk if we need this, since theres no table in the db for movie&location relationship without having to add a showtime
-        // like i think this can just be, addShowtime()
 
-
-    }
-
-    public void removeMovieFromLocation(Movie movie, Location location) {
-        location.removeMovie(movie);
-        while (!movieDBM.removeMovieFromLocation(movie.getMovieID(), location.getLocationID())){
-        }// may be turned into a try-catch
-        // may be deleted and replaced with removeShowtime() so its like the db
-    }
 
     public void displayMovies(Location location) {
-        ArrayList<Movie> allMovies = movieDBM.fetchMovies(location.getLocationID());
+        ArrayList<Movie> allMovies = fetchMovies(location.getLocationID());
         if (allMovies.isEmpty()) {
             System.out.println("No movies available at this location.");
             return;
@@ -35,65 +23,106 @@ public class MovieTheatreController {
             System.out.println("Movie ID: " + movie.getMovieID());
             System.out.println("Title: " + movie.getTitle());
             System.out.println("Genre: " + movie.getGenre());
-
-
         }
-
     }
-    public void displayMovies() {
-        ArrayList<Movie> allMovies = movieDBM.fetchMovies(-1); // -1 argument to fetchMovies means no location specified
-        if (allMovies.isEmpty()) {
-            System.out.println("No movies available. ");
+
+
+
+    public void displayShowtimes(Location location) {
+    }
+
+    public void addShowtime(int id, Movie movie, String time, Location location, int numRUSeats, int numOUSeats) {
+    }
+
+    public void removeShowtime(Showtime showtime) {
+    }
+
+    public void searchMovie(String search) {
+        ArrayList<Movie> results = fetchMovies(search);
+        if (results.isEmpty()) {
+            System.out.println("No movies found.");
             return;
         }
 
-        System.out.println("All movies:");
-        for (Movie movie : allMovies) {
-            System.out.println("Movie ID: " + movie.getMovieID());
-            System.out.println("Title: " + movie.getTitle());
-            System.out.println("Genre: " + movie.getGenre());
-
-
-        }
-
-    }
-    public void displayShowtimes(Location location) {}
-
-    public void addShowtime(int id, Movie movie, String time, Location location, int numRUSeats, int numOUSeats) {}
-
-    public void removeShowtime(Showtime showtime) {}
-
-    public void searchMovie( String search) {
-        ArrayList<Movie> results = movieDBM.fetchMovies(search);
-        if (results.isEmpty()){
-            System.out.println("No movies found. ");
-            return;
-        }
         System.out.println("Movies that matched your search:");
         for (Movie movie : results) {
             System.out.println("Movie ID: " + movie.getMovieID());
             System.out.println("Title: " + movie.getTitle());
             System.out.println("Genre: " + movie.getGenre());
-
-
         }
-
     }
-
-    public void selectMovie(Movie movie) {}
-
-    public void displayMovieNews(boolean isRegistered) {}
 
     public int produceMovieID() {
         return 0;
     }
 
-    public void addMovie(int id, String title, String genre) {}
+    public void addMovie(int id, String title, String genre) {
+    }
 
-    public void removeMovie(Movie movie) {}
+    public void removeMovie(Movie movie) {
+    }
 
     public int produceShowtimeID() {
         return 0;
+    }
+
+    public ArrayList<Movie> fetchMovies(int locationID) {
+        String query = null;
+        ArrayList<Movie> movies = new ArrayList<>();
+        PreparedStatement statement = null;
+
+        try {
+            if (locationID == -1) {
+                query = "SELECT * FROM MOVIE";
+                statement = jdbc.dbConnect.prepareStatement(query);
+            } else {
+                query = "SELECT * FROM MOVIE WHERE MovieID IN (" +
+                        "SELECT MovieID FROM SHOWTIME WHERE TheatreID = ?)";
+                statement = jdbc.dbConnect.prepareStatement(query);
+                statement.setInt(1, locationID);
+            }
+
+            ResultSet results = statement.executeQuery();
+
+            while (results.next()) {
+                int movieID = results.getInt("MovieID");
+                String title = results.getString("Title");
+                String genre = results.getString("Genre");
+
+                Movie movie = new Movie(movieID, title, genre);
+                movies.add(movie);
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return movies;
+    }
+
+    public ArrayList<Movie> fetchMovies(String search) {
+        ResultSet results;
+        ArrayList<Movie> movies = new ArrayList<>();
+
+        try {
+            Statement myStmt = jdbc.dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT M.MovieID, M.Title, M.Genre " +
+                    "FROM MOVIE AS M WHERE LOCATE(LOWER('" + search + "'), LOWER(M.Title)) > 0;");
+
+            while (results.next()) {
+                int movieID = results.getInt("MovieID");
+                String title = results.getString("Title");
+                String genre = results.getString("Genre");
+                Movie movie = new Movie(movieID, title, genre);
+                movies.add(movie);
+            }
+
+            myStmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return movies;
     }
 
 

@@ -1,6 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
-
+// can be deleted ???
 public class MovieDatabaseManager {
     private myJDBC jdbc;
 
