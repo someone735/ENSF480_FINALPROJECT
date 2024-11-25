@@ -63,7 +63,7 @@ public class MovieTheatreController {
 
     public void removeShowtime(Showtime showtime) {}
 
-    public void searchMovies( String search) {
+    public void searchMovie( String search) {
         ArrayList<Movie> results = movieDBM.fetchMovies(search);
         if (results.isEmpty()){
             System.out.println("No movies found. ");
@@ -96,6 +96,5 @@ public class MovieTheatreController {
         return 0;
     }
 
-    public void searchMovie(String search) {
-    }
+
 }

@@ -17,6 +17,15 @@ public class MovieTheatreApp {
         // add code to ask user if they want to see movies based on location or not
 
     }
+
+    public static void displayShowtimes(MovieTheatreController movieTC, Scanner scanner){
+        String search = "";
+        System.out.println("Which Movie would you like to see showtimes for? ");
+
+        search = scanner.nextLine().trim();
+        movieTC.displayShowtimes();
+
+    }
     public static void main(String args[]) {
 
         String url = "";
@@ -36,6 +45,7 @@ public class MovieTheatreApp {
         MovieTheatreController movieTC = new MovieTheatreController(db);
         displayMovies(movieTC, scanner);
         searchMovie(movieTC, scanner);
+        displayShowtimes(movieTC, scanner);
     }
 
 }
