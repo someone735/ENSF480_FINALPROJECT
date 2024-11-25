@@ -2,16 +2,18 @@ import java.util.Scanner;
 
 public class MovieTheatreApp {
 
-    public static void searchMovie(myJDBC db, Scanner scanner) {
+    public static void searchMovie(MovieTheatreController movieTC, Scanner scanner) {
         String search = "";
         System.out.println("Search Movie: ");
         search = scanner.nextLine().trim();
-        db.searchMovie(search);
+        movieTC.searchMovie(search);
+
+
 
     }
-    public static void displayMovies(myJDBC db, Scanner scanner) {
-        MovieTheatreController movieTheatreController = new MovieTheatreController(db);
-        movieTheatreController.displayMovies(); // see all movies across ALL locations
+    public static void displayMovies(MovieTheatreController movieTC, Scanner scanner) {
+
+        movieTC.displayMovies(); // see all movies across ALL locations
         // add code to ask user if they want to see movies based on location or not
 
     }
@@ -31,9 +33,9 @@ public class MovieTheatreApp {
         myJDBC db = new myJDBC("jdbc:mysql://localhost:3306/MOVIE_THEATRE", "root", "password");
         db.initializeConnection();
 
-
-
-        searchMovie(db, scanner);
+        MovieTheatreController movieTC = new MovieTheatreController(db);
+        displayMovies(movieTC, scanner);
+        searchMovie(movieTC, scanner);
     }
 
 }

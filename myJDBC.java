@@ -58,24 +58,8 @@ public class myJDBC {
         return this.PASSWORD;
     }
 
-    public void displayMovies() {
-        try {
-            Statement statement = this.dbConnect.createStatement();
-            String query = "SELECT * FROM MOVIE";
-            this.results = statement.executeQuery(query);
-            System.out.println("All Movies: ");
 
-            while(this.results.next()) {
-                System.out.println("Movie ID: " + this.results.getInt("MovieID"));
-                System.out.println("Movie: " + this.results.getString("Title"));
-                System.out.println("\n");
-            }
 
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
     // returns the movie IDs
     public ArrayList<Integer> searchMovie(String search) {
         ArrayList<Integer> IDs = new ArrayList<>();

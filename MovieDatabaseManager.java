@@ -1,6 +1,5 @@
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MovieDatabaseManager {
     private myJDBC jdbc;
@@ -45,5 +44,31 @@ public class MovieDatabaseManager {
         return movies;
     }
 
+    public ArrayList<Movie> fetchMovies(String search ) {
+        ResultSet results;
+        ArrayList<Movie> movies = new ArrayList<>();
 
-}
+        try {
+            Statement myStmt = jdbc.dbConnect.createStatement();
+            results = myStmt.executeQuery("select M.MovieID, M.Title\n" +
+                    "from MOVIE as M\n" +
+                    "where LOCATE(LOWER('" + search + "'), LOWER(M.Title)) > 0;");
+
+            while (results.next()) {
+                int movieID = results.getInt("MovieID");
+                String title = results.getString("Title");
+                String genre = results.getString("Genre");
+                Movie movie = new Movie(movieID, title, genre);
+                movies.add(movie);
+            }
+
+            myStmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+       return movies;
+    }
+
+
+
+    }
