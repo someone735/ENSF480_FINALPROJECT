@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Location {
     private String address;
     private String locationName;
-    private String locationID;
+    private int locationID;
     private ArrayList<Movie> movies;
     
-    public Location(String address, String locationName, String locationID){
+    public Location(String address, String locationName, int locationID){
         this.address = address;
         this.locationName = locationName;
         this.locationID = locationID;
@@ -20,7 +20,7 @@ public class Location {
     public void setLocationName(String locationName) {
         this.locationName = locationName;
     }
-    public void setLocationID(String locationID) {
+    public void setLocationID(int locationID) {
         this.locationID = locationID;
     }
     public void setMovies(ArrayList<Movie> movies) {
@@ -34,7 +34,7 @@ public class Location {
     public String getLocationName() {
         return locationName;
     }
-    public String getLocationID() {
+    public int getLocationID() {
         return locationID;
     }
     public ArrayList<Movie> getMovies() {
@@ -83,4 +83,7 @@ public class Location {
     }
 
 
+    public String getName() {
+        return this.locationName;
+    }
 }

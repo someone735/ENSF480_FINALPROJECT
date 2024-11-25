@@ -10,7 +10,10 @@ public class MovieTheatreApp {
 
     }
     public static void displayMovies(myJDBC db, Scanner scanner) {
-        db.displayMovies();
+        MovieTheatreController movieTheatreController = new MovieTheatreController(db);
+        movieTheatreController.displayMovies(); // see all movies across ALL locations
+        // add code to ask user if they want to see movies based on location or not
+
     }
     public static void main(String args[]) {
 
@@ -27,6 +30,8 @@ public class MovieTheatreApp {
         //myJDBC db = new myJDBC(url, user, pw);
         myJDBC db = new myJDBC("jdbc:mysql://localhost:3306/MOVIE_THEATRE", "root", "password");
         db.initializeConnection();
+
+
 
         searchMovie(db, scanner);
     }

@@ -4,13 +4,11 @@ public class Movie {
     private String title;
     private String genre;
     private int movieID;
-    static int count = 0;
     private ArrayList<Showtime> showtimes;
 
-    public Movie(String title, String genre){
+    public Movie(int id, String title, String genre){
         this.title = title;
         this.genre = genre;
-        this.movieID = ++count;
         this.showtimes = new ArrayList<>();
 
     }

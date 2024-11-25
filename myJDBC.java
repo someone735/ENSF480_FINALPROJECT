@@ -14,7 +14,7 @@ public class myJDBC {
     public final String DBURL;
     public final String USERNAME;
     public final String PASSWORD;
-    protected Connection dbConnect;
+    public Connection dbConnect;
     protected ResultSet results;
 
     public myJDBC(String dburl, String username, String password) {
