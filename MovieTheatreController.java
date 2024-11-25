@@ -37,20 +37,7 @@ public class MovieTheatreController {
     public void removeShowtime(Showtime showtime) {
     }
 
-    public void searchMovie(String search) {
-        ArrayList<Movie> results = fetchMovies(search);
-        if (results.isEmpty()) {
-            System.out.println("No movies found.");
-            return;
-        }
 
-        System.out.println("Movies that matched your search:");
-        for (Movie movie : results) {
-            System.out.println("Movie ID: " + movie.getMovieID());
-            System.out.println("Title: " + movie.getTitle());
-            System.out.println("Genre: " + movie.getGenre());
-        }
-    }
 
     public int produceMovieID() {
         return 0;
