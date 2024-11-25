@@ -13,6 +13,10 @@ public class Movie {
 
     }
 
+    @Override
+    public String toString(){
+        return title;
+    }
     public void addShowtime(int showtimeID, String time, Location location, int totalSeats){
         Showtime newShowtime = new Showtime(this, time, totalSeats, location, showtimeID);
         this.showtimes.add(newShowtime);

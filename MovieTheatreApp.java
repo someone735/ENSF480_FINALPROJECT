@@ -56,6 +56,7 @@ public class MovieTheatreApp extends JFrame {
     public void switchToRegister() {
         // Switch to the Movie List panel after successful login
         cardLayout.show(cards, "Signup");
+        cardLayout.show(cards, "Movies");
     }
 
     public static void main(String[] args) {
@@ -70,7 +71,8 @@ public class MovieTheatreApp extends JFrame {
 //        System.out.println("Enter your database password: ");
 //        pw = scanner.nextLine();
 //        //myJDBC db = new myJDBC(url, user, pw);
-        db = new myJDBC("jdbc:mysql://localhost:3306/MOVIE_THEATRE", "root", "password");
+        db = new myJDBC("jdbc:mysql://localhost:3306/MOVIE_THEATRE", "root", "123");
+        db = new myJDBC();
         db.initializeConnection();
 //        MovieTheatreController movieTC = new MovieTheatreController(db);
 //        displayMovies(movieTC, scanner);
@@ -375,6 +377,8 @@ class MovieListPanel extends JPanel {
     private DefaultListModel<Movie> listModel;
     private JList<Movie> movieList;
     private JButton showAllButton;
+    private JLabel movieDetailsLabel;
+
 
     public MovieListPanel(MovieTheatreApp app, MovieTheatreController movieTC) {
         // layout for the main panel
@@ -414,6 +418,7 @@ class MovieListPanel extends JPanel {
         searchPanel.add(showAllButton);
 
 
+
         this.add(searchPanel, BorderLayout.NORTH);
 
         //create list model for the JList
@@ -425,8 +430,15 @@ class MovieListPanel extends JPanel {
         movieList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         this.add(movieListScrollPane, BorderLayout.CENTER);
+        movieDetailsLabel = new JLabel();
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0)); // Align text to the right
+        detailsPanel.add(movieDetailsLabel);
 
-        // initially load all movies
+        detailsPanel.setAlignmentY(TOP_ALIGNMENT);
+        this.add(detailsPanel, BorderLayout.EAST);
+
+
         updateMovieList(movieTC);
     }
 
@@ -450,8 +462,9 @@ class MovieListPanel extends JPanel {
         movieList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 Movie selectedMovie = movieList.getSelectedValue();
-                System.out.println("Selected Movie: " + selectedMovie.getTitle() +
-                        " | Genre: " + selectedMovie.getGenre());
+                String movieDetails = "<html><b>Title:</b> " + selectedMovie.getTitle() +
+                        "<br><b>Genre:</b> " + selectedMovie.getGenre() + "</html>";
+                movieDetailsLabel.setText(movieDetails);
             }
         });
     }
