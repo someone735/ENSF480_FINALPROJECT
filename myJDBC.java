@@ -79,7 +79,7 @@ public class myJDBC {
         }
         return movies;
     }
-    // returns the movie IDs
+
     public ArrayList<String> searchMovie(String search) {
         ArrayList<String> movies = new ArrayList<>();
 
@@ -101,6 +101,28 @@ public class myJDBC {
             ex.printStackTrace();
         }
         return movies;
+    }
+    // havent tested below
+    public int movieIDFromName(String name) {
+        int movieID = -1;
+        try {
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("select M.MovieID\n" +
+                    "from MOVIE as M\n" +
+                    "where M.Title = '" + name + "';");
+
+            //System.out.println("Results: ");
+            while (results.next()) {
+//                System.out.println("ID: " + results.getInt("MovieID") + "     Name: " +
+//                        results.getString("Title"));
+                movieID = results.getInt("movieID");
+            }
+
+            myStmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return movieID;
     }
 }
 
