@@ -27,6 +27,19 @@ public class RegisteredUser extends User{
         registered = true;
 
     }
+    public RegisteredUser(int id ){
+
+        super(); // calls ctor of base class User
+
+        if (paymentMethodSaved && paymentMethod != null){
+            this.paymentMethod = paymentMethod;
+        }
+        // else if paymentMethod is not saved yet for this RU, they will be requested
+        // to input their payment details when purchasing tickets/renewing Membership.
+        // their payment details will be saved to the DB after and paymentMethodSaved will == true.
+        registered = true;
+
+    }
 
     //getters
     public int getID() {

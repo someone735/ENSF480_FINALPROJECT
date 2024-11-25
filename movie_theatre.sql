@@ -93,6 +93,8 @@ CREATE TABLE REG_USER (
 	Fname				varchar(50)	not null,
 	Lname				varchar(50)	not null,
     Email				varchar(50)	not null,
+    Username			varchar(20)	not null,
+    Password1			varchar(20) not null,
     Address				varchar(50)	not null,
     MemberShipJoinDate	DATE NOT NULL,
     MemberShipExpiry	DATE NOT NULL,

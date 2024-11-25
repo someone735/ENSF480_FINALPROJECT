@@ -1,6 +1,17 @@
 import java.util.ArrayList;
 
 public class MovieTheatreController {
+    // sorry hehe just putting thes etemporarily here for now so i can go back to them when i need them
+//    public static void searchMovie(myJDBC db, Scanner scanner) {
+//        String search = "";
+//        System.out.println("Search Movie: ");
+//        search = scanner.nextLine().trim();
+//        db.searchMovie(search);
+//
+//    }
+//    public static void displayMovies(myJDBC db, Scanner scanner) {
+//        db.displayMovies();
+//    }
 
     public void addMovieToLocation(Movie movie, Location location) {
         location.addMovie(movie);

@@ -15,6 +15,9 @@ public class User {
         registered = false;
 
     }
+    public User(){
+        registered = false;
+    }
     //setters
     public void setEmail(String email) {
         this.email = email;

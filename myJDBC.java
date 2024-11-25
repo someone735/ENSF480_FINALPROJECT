@@ -58,27 +58,30 @@ public class myJDBC {
         return this.PASSWORD;
     }
 
-    public void displayMovies() {
+    public ArrayList<String>  displayMovies() {
+        ArrayList<String> movies = new ArrayList<>();
         try {
             Statement statement = this.dbConnect.createStatement();
             String query = "SELECT * FROM MOVIE";
             this.results = statement.executeQuery(query);
-            System.out.println("All Movies: ");
+            //System.out.println("All Movies: ");
 
             while(this.results.next()) {
-                System.out.println("Movie ID: " + this.results.getInt("MovieID"));
-                System.out.println("Movie: " + this.results.getString("Title"));
-                System.out.println("\n");
+//                System.out.println("Movie ID: " + this.results.getInt("MovieID"));
+//                System.out.println("Movie: " + this.results.getString("Title"));
+//                System.out.println("\n");
+                movies.add(results.getString("Title"));
             }
 
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return movies;
     }
     // returns the movie IDs
-    public ArrayList<Integer> searchMovie(String search) {
-        ArrayList<Integer> IDs = new ArrayList<>();
+    public ArrayList<String> searchMovie(String search) {
+        ArrayList<String> movies = new ArrayList<>();
 
         try {
             Statement myStmt = dbConnect.createStatement();
@@ -86,18 +89,18 @@ public class myJDBC {
                     "from MOVIE as M\n" +
                     "where LOCATE(LOWER('" + search + "'), LOWER(M.Title)) > 0;");
 
-            System.out.println("Results: ");
+            //System.out.println("Results: ");
             while (results.next()) {
-                System.out.println("ID: " + results.getInt("MovieID") + "     Name: " +
-                        results.getString("Title"));
-                IDs.add(new Integer(results.getInt("MovieID")));
+//                System.out.println("ID: " + results.getInt("MovieID") + "     Name: " +
+//                        results.getString("Title"));
+                movies.add(results.getString("Title"));
             }
 
             myStmt.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return IDs;
+        return movies;
     }
 }
 
